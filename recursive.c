@@ -1,3 +1,13 @@
+/*
+    Nama : Muhammad Mega Nugraha
+    NPM : 22081010213
+    Kelas : D081
+
+    Soal :Terapkan menggunakan fungsi rekursif! (tidak ada ketentuan jenis bahasa pemrograman)
+          jika n = 0 maka x^n = 1
+          jika n > 0 maka x^n = x(x^(n-1))
+          jika n < 0 maka x^n = 1/x^(-n)
+*/
 #include <stdio.h>
 
 float x_to_the_power_of_n(int x, int n){
