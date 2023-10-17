@@ -17,24 +17,41 @@ Mahasiswa* createNode(const string& nama, const string& npm, int usia) {
     return newNode;
 }
 
-void appendNode(Mahasiswa*& data, const string& nama, const string& npm, int usia) {
-    // Create new node with createNode
+void appendNode(Mahasiswa*& head, const string& nama, const string& npm, int usia, int index) {
+    // Create new node
     Mahasiswa* nodeBaru = createNode(nama, npm, usia);
 
-    // If the list is empty, set nodeBaru as head
-    if (data == nullptr) {
-        data = nodeBaru;
+    // Case 0: If inserting at the beginning (head)
+    if (index == 0) {
+        nodeBaru->next = head;
+        head = nodeBaru;
         return;
     }
 
-    // Go to the last node to find the last node
-    Mahasiswa* temp = data;
-    while (temp->next != nullptr) {
-        temp = temp->next;
+    // Case 1: Inserting in the middle or at the end
+    Mahasiswa* current = head;
+    Mahasiswa* prev = nullptr;
+
+    int count = 0;
+    while (current != nullptr && count < index) {
+        prev = current;
+        current = current->next;
+        count++;
     }
 
-    // Attach newNode to the last node
-    temp->next = nodeBaru;
+    // Insert at the specified index
+    if (current == nullptr && count == index) {
+        // Case 2: Insert at the end
+        prev->next = nodeBaru;
+    } else if (current != nullptr) {
+        // Case 3: Insert in the middle
+        prev->next = nodeBaru;
+        nodeBaru->next = current;
+    } else {
+        // Case 4: Index out of range
+        std::cout << "Index out of range. Cannot insert." << std::endl;
+        delete nodeBaru;
+    }
 }
 
 void deleteNode(Mahasiswa*& head, int index) {
@@ -73,6 +90,11 @@ void deleteNode(Mahasiswa*& head, int index) {
     delete current;
 }
 
+void replaceNode(struct Mahasiswa* head, string nama, string npm, int usia, int index){
+    deleteNode(head, index);
+    appendNode(head, nama, npm, usia, index);
+}
+
 void cetakList(struct Mahasiswa* data){
     // Traversing the list
     while (data!=nullptr){
@@ -88,17 +110,36 @@ void cetakList(struct Mahasiswa* data){
 
 // Example of usage:
 int main() {
+    // Variable initialization
     Mahasiswa* head = nullptr;
-    appendNode(head, "John Doe", "12345", 20);
-    appendNode(head, "Jane Smith", "67890", 22);
 
-    // Print the list or perform other operations...
+    // appendNode function is to add nodes based on index given
+    // whether it's in front, middle, or last
+    appendNode(head, "John Doe", "12345", 20, 0);
+    appendNode(head, "Jane Smith", "67890", 22, 1);
+    appendNode(head, "Mark Twain", "12345", 20, 2);
+    // Print list to check if appendNode works correctly as an add node function
+    cout << "Add Node :" << endl;
+    cetakList(head);
+    
+    // replaceNode is just a wrapped together deleteNode and appendNode 
+    // so it could be executed as a whole, one after another .
+    // it gives the functionality of replacing node on specific index
+    // Here the last, middle, and first node being replaced.
+    replaceNode(head, "Chris Effendy", "12345", 20, 2);
+    replaceNode(head, "Titus Black", "3314", 21, 1);
+    replaceNode(head, "John Green", "12345", 20, 0);
+    // Print list to check if replaceNode works correctly
+    cout << "Replace Node :" << endl;
     cetakList(head);
 
-    // Delete 1
-    deleteNode(head, 1);
+    // deleteNode function is to delete a node on specific index
+    // by using index it could be used to delete a node
+    // whether i'ts in first, middle, or last of a list.
+    deleteNode(head, 0); // deleting the front
+    deleteNode(head, 1); // delete the last
+    cout << "Delete last and first node :" << endl;
     cetakList(head);
-
 
     // Don't forget to free the memory when done with the list
     Mahasiswa* current = head;
