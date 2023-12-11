@@ -135,8 +135,6 @@ void destroyBuku() {
 }
 
 int main() {
-  // Write C++ code here
-
   pushBuku("Book1", 100);
   pushBuku("Book2", 150);
   pushBuku("Book3", 200);
