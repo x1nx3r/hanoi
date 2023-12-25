@@ -14,7 +14,6 @@ struct DataMahasiswa{
 DataMahasiswa *head, *tail, *cur, *newNode, *del;
 int maksimalData = 5;
 
-
 void createData(string nama, string jurusan, string npm){
   head = new DataMahasiswa();
   head->nama = nama;
